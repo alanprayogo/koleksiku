@@ -97,4 +97,11 @@ class BookController extends Controller
         // Redirect kembali ke halaman form
         return redirect()->route('show-book');
     } // edit-book
+
+    public function deleteBook($id)
+    {
+        $data = Book::findOrFail($id);
+        $data->delete();
+        return redirect()->back()->with('success', 'Data kategori berhasil dihapus.');
+    } // delete book
 }

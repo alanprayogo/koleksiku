@@ -66,9 +66,16 @@ class CategoryController extends Controller
         ]);
 
         // Tambahkan session flash untuk SweetAlert
-        $request->session()->flash('success', 'Data kategori berhasil diperbarui!');
+        $request->session()->flash('success', 'Data kategori berhasil diperbarui');
 
         // Redirect kembali ke halaman form
         return redirect()->route('show-category');
-    }
+    } // edit category
+
+    public function deleteCategory($id)
+    {
+        $data = Category::findOrFail($id);
+        $data->delete();
+        return redirect()->back()->with('success', 'Data kategori berhasil dihapus.');
+    } // delete category
 }

@@ -91,6 +91,7 @@
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
     <!-- End custom js for this page-->
+    @stack('js')
 </body>
 
 </html>
