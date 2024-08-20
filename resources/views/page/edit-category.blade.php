@@ -7,20 +7,22 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Formulir Ubah Kategori</h4>
-                        <form class="forms-sample">
+                        <form action="{{ route('edit-category', $category->id) }}" class="forms-sample" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Nama Kategori</label>
-                                        <input type="text" class="form-control" id="exampleInputName1"
-                                            placeholder="Name">
+                                        <label for="input_category_name">Nama Kategori</label>
+                                        <input type="text" class="form-control" id="input_category_name" name="category_name"
+                                            value="{{ $category->category_name }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Kode Kategori</label>
-                                        <input type="text" class="form-control" id="exampleInputName1"
-                                            placeholder="Name">
+                                        <label for="input_category_code">Kode Kategori</label>
+                                        <input type="text" class="form-control" id="input_category_code" name="category_code"
+                                            value="{{ $category->category_code }}">
                                     </div>
                                 </div>
                             </div>

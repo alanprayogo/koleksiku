@@ -27,7 +27,7 @@
                                             <td>{{ $category->category_code }}</td>
                                             <td>{{ $category->category_name }}</td>
                                             <td>
-                                                <a href="{{ route('show-edit-category') }}" type="button"
+                                                <a href="{{ route('show-edit-category', $category->id) }}" type="button"
                                                     class="btn btn-sm btn-warning btn-icon-text">
                                                     <i class="ti-file btn-icon-append"></i> Ubah
                                                 </a>

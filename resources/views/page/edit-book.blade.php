@@ -7,30 +7,42 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Formulir Ubah Buku</h4>
-                        <form class="forms-sample">
+                        <form action="{{ route('edit-book', $book->id) }}" class="forms-sample" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleSelectGender">Kategori</label>
-                                        <select class="form-select" id="exampleSelectGender">
-                                            <option>Novel</option>
-                                            <option>Biografi</option>
-                                            <option>Komik</option>
+                                        <label for="input_book_category">Kategori</label>
+                                        <select class="form-select" id="input_book_category" name="id_category">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ $category->id == $book->id_category ? 'selected' : '' }}>
+                                                    {{ $category->category_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Judul Buku</label>
-                                        <input type="text" class="form-control" id="exampleInputName1"
-                                            placeholder="Name">
+                                        <label for="input_book_code">Kode Buku</label>
+                                        <input type="text" class="form-control" id="input_book_code" name="code"
+                                            value="{{ $bookCode }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Pengarang</label>
-                                        <input type="text" class="form-control" id="exampleInputName1"
-                                            placeholder="Name">
+                                        <label for="input_book_title">Judul Buku</label>
+                                        <input type="text" class="form-control" id="input_book_title" name="book_title"
+                                            value="{{ $book->book_title }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="input_book_author">Pengarang</label>
+                                        <input type="text" class="form-control" id="input_book_author" name="book_author"
+                                            value="{{ $book->book_author }}">
                                     </div>
                                 </div>
                             </div>

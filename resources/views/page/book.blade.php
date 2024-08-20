@@ -32,7 +32,7 @@
                                             <td>{{ $book->book_title }}</td>
                                             <td>{{ $book->book_author }}</td>
                                             <td>
-                                                <a href="" type="button"
+                                                <a href="{{ route('show-edit-book', $book->id) }}" type="button"
                                                     class="btn btn-sm btn-warning btn-icon-text">
                                                     <i class="ti-file btn-icon-append"></i> Ubah
                                                 </a>

@@ -43,8 +43,32 @@ class CategoryController extends Controller
         return redirect()->route('show-category');
     }
 
-    public function showEditCategory()
+    public function showEditCategory($id)
     {
-        return view('page.edit-category');
+        $category = Category::findOrFail($id);
+        return view('page.edit-category', compact('category'));
     } // show add category
+
+    public function editCategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        // Validasi input
+        $validatedData = $request->validate([
+            'category_code' => 'required|string|max:255',
+            'category_name' => 'required|string|max:255',
+        ]);
+
+        // Buat dan simpan kategori baru
+        $category->update([
+            'category_code' => $validatedData['category_code'],
+            'category_name' => $validatedData['category_name'],
+        ]);
+
+        // Tambahkan session flash untuk SweetAlert
+        $request->session()->flash('success', 'Data kategori berhasil diperbarui!');
+
+        // Redirect kembali ke halaman form
+        return redirect()->route('show-category');
+    }
 }

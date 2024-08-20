@@ -56,8 +56,45 @@ class BookController extends Controller
         return redirect()->route('show-book');
     } // add book
 
-    public function showEditBook()
+    public function showEditBook($id)
     {
-        return view('page.edit-book');
+        $book = Book::findOrFail($id);
+        $categories = Category::all();
+
+        $fullCode = $book->code; // Misalnya kode yang disimpan adalah "ABC-123"
+        $codeParts = explode(' - ', $fullCode); // Pisahkan dengan " - "
+        $bookCode = $codeParts[1]; // Mengambil bagian kode buku saja, yaitu "123"
+
+        return view('page.edit-book', compact('book', 'categories', 'bookCode'));
     } // show edit book
+
+    public function editBook(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+
+        // Validasi input
+        $validatedData = $request->validate([
+            'id_category' => 'required|exists:categories,id',
+            'code' => 'required|string|max:255',
+            'book_title' => 'required|string|max:255',
+            'book_author' => 'required|string|max:255',
+        ]);
+
+        $category_code = Category::findOrFail($validatedData['id_category']);
+        $code = $category_code->category_code.' - '.$validatedData['code'] ;
+
+        // Buat dan simpan kategori baru
+        $book->update([
+            'id_category' => $validatedData['id_category'],
+            'code' => $code,
+            'book_title' => $validatedData['book_title'],
+            'book_author' => $validatedData['book_author'],
+        ]);
+
+        // Tambahkan session flash untuk SweetAlert
+        $request->session()->flash('success', 'Data buku berhasil diperbarui!');
+
+        // Redirect kembali ke halaman form
+        return redirect()->route('show-book');
+    } // edit-book
 }
