@@ -22,6 +22,7 @@ Route::get('/', function () {
 // Category Controller
 Route::get('/show-category', [CategoryController::class, 'showCategory']) ->name('show-category');
 Route::get('/show-add-category', [CategoryController::class, 'showAddCategory']) ->name('show-add-category');
+Route::post('/add-category', [CategoryController::class, 'addCategory']) ->name('add-category');
 Route::get('/show-edit-category', [CategoryController::class, 'showEditCategory']) ->name('show-edit-category');
 
 // Book Controller

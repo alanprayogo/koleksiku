@@ -21,21 +21,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>NV</td>
-                                        <td>Novel</td>
-                                        <td>
-                                            <a href="{{ route('show-edit-category') }}" type="button"
-                                                class="btn btn-sm btn-warning btn-icon-text">
-                                                <i class="ti-file btn-icon-append"></i> Ubah
-                                            </a>
-                                            <a href="" type="button"
-                                                class="btn btn-sm btn-danger btn-icon-text">
-                                                <i class="ti-trash btn-icon-append"></i> Hapus
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @forelse ($categories as $category)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $category->category_code }}</td>
+                                            <td>{{ $category->category_name }}</td>
+                                            <td>
+                                                <a href="{{ route('show-edit-category') }}" type="button"
+                                                    class="btn btn-sm btn-warning btn-icon-text">
+                                                    <i class="ti-file btn-icon-append"></i> Ubah
+                                                </a>
+                                                <a href="" type="button"
+                                                    class="btn btn-sm btn-danger btn-icon-text">
+                                                    <i class="ti-trash btn-icon-append"></i> Hapus
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    @empty
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
