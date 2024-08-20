@@ -23,22 +23,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>NV-01</td>
-                                        <td>Novel</td>
-                                        <td>Home Sweet Loan</td>
-                                        <td>Agata</td>
-                                        <td>
-                                            <a href="{{ route('show-edit-book') }}" type="button"
-                                                class="btn btn-sm btn-warning btn-icon-text">
-                                                <i class="ti-file btn-icon-append"></i> Ubah
-                                            </a>
-                                            <a href="" type="button" class="btn btn-sm btn-danger btn-icon-text">
-                                                <i class="ti-trash btn-icon-append"></i> Hapus
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @forelse ($books as $book)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $book->code }}</td>
+                                            <td>{{ $book->category ? $book->category->category_name : 'Kategori tidak tersedia' }}
+                                            </td>
+                                            <td>{{ $book->book_title }}</td>
+                                            <td>{{ $book->book_author }}</td>
+                                            <td>
+                                                <a href="" type="button"
+                                                    class="btn btn-sm btn-warning btn-icon-text">
+                                                    <i class="ti-file btn-icon-append"></i> Ubah
+                                                </a>
+                                                <a href="" type="button"
+                                                    class="btn btn-sm btn-danger btn-icon-text">
+                                                    <i class="ti-trash btn-icon-append"></i> Hapus
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">Tidak ada buku yang tersedia.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -47,4 +55,13 @@
             </div>
         </div>
     </div>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') }}',
+            });
+        </script>
+    @endif
 @endsection

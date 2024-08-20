@@ -28,4 +28,5 @@ Route::get('/show-edit-category', [CategoryController::class, 'showEditCategory'
 // Book Controller
 Route::get('/show-book', [BookController::class, 'showBook']) ->name('show-book');
 Route::get('/show-add-book', [BookController::class, 'showAddBook']) ->name('show-add-book');
+Route::post('/add-book', [BookController::class, 'addBook']) ->name('add-book');
 Route::get('/show-edit-book', [BookController::class, 'showEditBook']) ->name('show-edit-book');

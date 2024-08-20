@@ -40,7 +40,7 @@ class CategoryController extends Controller
         $request->session()->flash('success', 'Data kategori berhasil disimpan!');
 
         // Redirect kembali ke halaman form
-        return redirect()->back();
+        return redirect()->route('show-category');
     }
 
     public function showEditCategory()
