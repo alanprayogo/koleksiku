@@ -38,8 +38,15 @@ class BookController extends Controller
             'book_author' => 'required|string|max:255',
         ]);
 
+        // Ambil kode kategori
         $category_code = Category::findOrFail($validatedData['id_category']);
-        $code = $category_code->category_code.' - '.$validatedData['code'] ;
+        $code = $category_code->category_code.' - '.$validatedData['code'];
+
+        // Cek apakah kode buku sudah ada
+        $existingBook = Book::where('code', $code)->first();
+        if ($existingBook) {
+            return redirect()->back()->withErrors(['code' => 'Kode Buku sudah terdaftar'])->withInput();
+        }
 
         // Buat dan simpan buku baru
         $book = new Book();
@@ -54,7 +61,7 @@ class BookController extends Controller
 
         // Redirect kembali ke halaman form
         return redirect()->route('show-book');
-    } // add book
+    }
 
     public function showEditBook($id)
     {

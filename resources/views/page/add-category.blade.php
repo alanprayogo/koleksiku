@@ -12,16 +12,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="input_category_code">Kode Kategori</label>
-                                        <input type="text" class="form-control" id="input_category_code"
-                                            placeholder="Kode Kategori" name="category_code">
+                                        <label for="input_category">Nama Kategori</label>
+                                        <input type="text" class="form-control" id="input_category"
+                                            placeholder="Name Kategori" name="category_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="input_category">Nama Kategori</label>
-                                        <input type="text" class="form-control" id="input_category"
-                                            placeholder="Name Kategori" name="category_name">
+                                        <label for="input_category_code">Kode Kategori</label>
+                                        <input type="text" class="form-control" id="input_category_code"
+                                            placeholder="Kode Kategori" name="category_code">
                                     </div>
                                 </div>
                             </div>
@@ -33,4 +33,15 @@
             </div>
         </div>
     </div>
+    @push('js')
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ $errors->first() }}',
+                });
+            </script>
+        @endif
+    @endpush
 @endsection

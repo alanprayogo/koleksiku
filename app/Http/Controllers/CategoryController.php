@@ -26,8 +26,10 @@ class CategoryController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'category_code' => 'required|string|max:255',
+            'category_code' => 'required|unique:categories,category_code',
             'category_name' => 'required|string|max:255',
+        ], [
+            'category_code.unique' => 'Kode Kategori sudah terdaftar',
         ]);
 
         // Buat dan simpan kategori baru
