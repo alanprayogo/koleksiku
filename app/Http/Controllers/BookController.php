@@ -11,4 +11,14 @@ class BookController extends Controller
     {
         return view('page.book');
     } // show book
+
+    public function showAddBook()
+    {
+        return view('page.add-book');
+    } // show add book
+
+    public function showEditBook()
+    {
+        return view('page.edit-book');
+    } // show edit book
 }

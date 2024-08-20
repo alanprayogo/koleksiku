@@ -6,7 +6,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Category Table</h4>
+                        <h4 class="card-title">Tabel Kategori</h4>
                         <a href="{{ route('show-add-category') }}" type="button" class="btn btn-primary btn-icon-text">
                             <i class="ti-plus btn-icon-prepend"></i> Tambah Kategori
                         </a>
@@ -17,7 +17,6 @@
                                         <th>No</th>
                                         <th>Kode</th>
                                         <th>Nama Kategori</th>
-                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -26,10 +25,6 @@
                                         <td>1</td>
                                         <td>NV</td>
                                         <td>Novel</td>
-                                        <td>
-                                            <label class="badge badge-success">Aktif</label>
-                                            {{-- <label class="badge badge-danger">Tidak Aktif</label> --}}
-                                        </td>
                                         <td>
                                             <a href="{{ route('show-edit-category') }}" type="button"
                                                 class="btn btn-sm btn-warning btn-icon-text">

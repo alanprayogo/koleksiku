@@ -19,7 +19,12 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Category Controller
 Route::get('/show-category', [CategoryController::class, 'showCategory']) ->name('show-category');
 Route::get('/show-add-category', [CategoryController::class, 'showAddCategory']) ->name('show-add-category');
 Route::get('/show-edit-category', [CategoryController::class, 'showEditCategory']) ->name('show-edit-category');
+
+// Book Controller
 Route::get('/show-book', [BookController::class, 'showBook']) ->name('show-book');
+Route::get('/show-add-book', [BookController::class, 'showAddBook']) ->name('show-add-book');
+Route::get('/show-edit-book', [BookController::class, 'showEditBook']) ->name('show-edit-book');
