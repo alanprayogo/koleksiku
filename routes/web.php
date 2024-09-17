@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -15,20 +17,15 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'showLogin'])->name('user-login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('user-register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
-Route::get('/register', function () {
-    return view('auth.register');
-});
-
-// Route::middleware('guest')->group(function () {
-//     Route::get('/', [AuthController::class, 'showLogin'])->name('/');
-//     Route::post('/login', [AuthController::class, 'login'])->name('login');
-//     Route::get('/register', [AuthController::class, 'showRegister'])->name('user-register');
-//     Route::post('/register', [AuthController::class, 'register'])->name('register');
-// });
+// Admin Controller
+Route::get('/dahsboard-admin', [AdminController::class, 'index'])->name('dashboard-admin');
 
 // Category Controller
 Route::get('/show-category', [CategoryController::class, 'showCategory']) ->name('show-category');
@@ -45,3 +42,6 @@ Route::post('/add-book', [BookController::class, 'addBook']) ->name('add-book');
 Route::get('/show-edit-book/{id}', [BookController::class, 'showEditBook']) ->name('show-edit-book');
 Route::put('/show-edit-book/{id}', [BookController::class, 'editBook']) ->name('edit-book');
 Route::delete('/delete-book/{id}', [BookController::class, 'deleteBook']) ->name('delete-book');
+
+// User Controller
+Route::get('/dahsboard-user', [UserController::class, 'index'])->name('dashboard-user');

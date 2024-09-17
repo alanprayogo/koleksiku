@@ -32,7 +32,13 @@
                                 <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
                             </div>
                             <h4>Sign Up</h4>
-                            <form class="pt-3">
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            <form class="pt-3" id="formRegister" action="{{ route('register') }}" method="POST">
+                                @csrf
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -53,18 +59,20 @@
                                                 placeholder="Email" name="email">
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Konfirmasi Password</label>
+                                            <label for="confirm-password">Konfirmasi Password</label>
                                             <input type="password" class="form-control form-control-lg"
-                                                id="exampleInputPassword1" placeholder="Password">
+                                                id="confirm-password" placeholder="password"
+                                                name="password_confirmation">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-grid mt-3 gap-2">
-                                    <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                                        href="../../index.html">SIGN UP</a>
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
+                                        UP</button>
                                 </div>
                                 <div class="font-weight-light mt-4 text-center"> Already have an account? <a
-                                        href="login.html" class="text-primary">Login</a>
+                                        href="{{ route('user-login') }}" class="text-primary">Login</a>
                                 </div>
                             </form>
                         </div>
@@ -89,6 +97,61 @@
     <!-- endinject -->
     {{-- custom --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#formRegister').on('submit', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                // Menonaktifkan tombol submit
+                form.find('button[type="submit"]').prop('disabled', true);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        // Jika registrasi berhasil, tampilkan SweetAlert
+                        Swal.fire({
+                            title: 'Success',
+                            text: response.success,
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            // Redirect ke halaman login
+                            window.location.href = response.redirect;
+                        });
+                    },
+                    error: function(xhr) {
+                        // Jika validasi gagal, tampilkan pesan kesalahan menggunakan SweetAlert
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = '';
+
+                        if (typeof errors === 'object') {
+                            // Jika errors adalah objek (validasi gagal)
+                            $.each(errors, function(key, value) {
+                                errorMessage += value[0] + '<br>';
+                            });
+                        } else {
+                            // Jika errors adalah string (autentikasi gagal)
+                            errorMessage = errors;
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: errorMessage
+                        });
+
+                        // Mengaktifkan kembali tombol submit
+                        form.find('button[type="submit"]').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
     {{-- endcustom --}}
 </body>
 
