@@ -16,8 +16,19 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('auth.login');
 });
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
+
+// Route::middleware('guest')->group(function () {
+//     Route::get('/', [AuthController::class, 'showLogin'])->name('/');
+//     Route::post('/login', [AuthController::class, 'login'])->name('login');
+//     Route::get('/register', [AuthController::class, 'showRegister'])->name('user-register');
+//     Route::post('/register', [AuthController::class, 'register'])->name('register');
+// });
 
 // Category Controller
 Route::get('/show-category', [CategoryController::class, 'showCategory']) ->name('show-category');
