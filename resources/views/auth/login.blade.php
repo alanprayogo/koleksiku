@@ -32,7 +32,8 @@
                                 <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
                             </div>
                             <h4>Sign In</h4>
-                            <form class="pt-3">
+                            <form class="pt-3" id="login" action="{{ route('login') }}" method="POST">
+                                @csrf
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control form-control-lg" id="email"
@@ -44,11 +45,12 @@
                                         placeholder="Password" name="password">
                                 </div>
                                 <div class="d-grid mt-3 gap-2">
-                                    <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                                        href="../../index.html">SIGN IN</a>
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
+                                        IN</button>
                                 </div>
                                 <div class="font-weight-light mt-4 text-center"> Already have an account? <a
-                                        href="login.html" class="text-primary">Register</a>
+                                        href="{{ route('user-register') }}" class="text-primary">Register</a>
                                 </div>
                             </form>
                         </div>
@@ -73,84 +75,80 @@
     <!-- endinject -->
     {{-- custom --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @push('js')
-        <script>
-            $(document).ready(function() {
-                $('#login').on('submit', function(event) {
-                    event.preventDefault();
-                    var form = $(this);
-                    // Menonaktifkan tombol submit 
-                    form.find('button[type="submit"]').prop('disabled', true);
+    <script>
+        $(document).ready(function() {
+            $('#login').on('submit', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                // Menonaktifkan tombol submit 
+                form.find('button[type="submit"]').prop('disabled', true);
 
-                    $.ajax({
-                        url: form.attr('action'),
-                        method: form.attr('method'),
-                        data: form.serialize(),
-                        success: function(response) {
-                            // Jika validasi berhasil, redirect atau lakukan tindakan lain
-                            Swal.fire({
-                                title: 'Success',
-                                text: response.success,
-                                icon: 'success',
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then((result) => {
-                                window.location.href = response.redirect;
+                $.ajax({
+                    url: form.attr('action'),
+                    method: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        // Jika validasi berhasil, redirect atau lakukan tindakan lain
+                        Swal.fire({
+                            title: 'Success',
+                            text: response.success,
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then((result) => {
+                            window.location.href = response.redirect;
+                        });
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = '';
+
+                        if (errors && typeof errors === 'object') {
+                            $.each(errors, function(index, value) {
+                                errorMessage += value + '<br>';
                             });
-                        },
-                        error: function(xhr) {
-                            // Jika validasi gagal, tampilkan pesan kesalahan menggunakan SweetAlert
-                            var errors = xhr.responseJSON.errors;
-                            var errorMessage = '';
-
-                            if (Array.isArray(errors)) {
-                                // Jika errors adalah array (validasi gagal)
-                                $.each(errors, function(index, value) {
-                                    errorMessage += value + '<br>';
-                                });
-                            } else {
-                                // Jika errors adalah string (autentikasi gagal)
-                                errorMessage = errors;
-                            }
-
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                html: errorMessage
-                            });
-
-                            // Mengaktifkan kembali tombol submit 
-                            form.find('button[type="submit"]').prop('disabled', false);
+                        } else if (typeof errors === 'string') {
+                            errorMessage = errors;
+                        } else {
+                            errorMessage = 'Something went wrong';
                         }
-                    });
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: errorMessage
+                        });
+
+                        form.find('button[type="submit"]').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Success',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    timer: 2500,
+                    showConfirmButton: false
                 });
             });
         </script>
-        @if (session('success'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        title: 'Success',
-                        text: '{{ session('success') }}',
-                        icon: 'success',
-                        timer: 2500,
-                        showConfirmButton: false
-                    });
+    @endif
+    @if (session('failed'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: '{{ session('failed') }}',
                 });
-            </script>
-        @endif
-        @if (session('failed'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: '{{ session('failed') }}',
-                    });
-                });
-            </script>
-        @endif
-    @endpush
+            });
+        </script>
+    @endif
     {{-- endcustom --}}
 </body>
 
