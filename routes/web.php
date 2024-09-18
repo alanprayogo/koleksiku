@@ -19,11 +19,17 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::middleware(['prevent-back'])->group(function () {
+    // Guest Controller
     Route::middleware('guest')->group(function () {
         Route::get('/', [AuthController::class, 'showLogin'])->name('user-login');
         Route::post('/login', [AuthController::class, 'login'])->name('login');
         Route::get('/register', [AuthController::class, 'showRegister'])->name('user-register');
         Route::post('/register', [AuthController::class, 'register'])->name('register');
+    });
+
+    // Auth Controller
+    Route::middleware('auth')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 
     // Admin Controller

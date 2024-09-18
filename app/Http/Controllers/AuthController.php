@@ -92,4 +92,10 @@ class AuthController extends Controller
             return response()->json(['errors' => $e->getMessage()], 500);
         }
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
 }

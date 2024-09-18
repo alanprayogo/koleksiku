@@ -1,7 +1,7 @@
 <nav class="navbar col-lg-12 col-12 fixed-top d-flex flex-row p-0">
     <div class="navbar-brand-wrapper d-flex align-items-center justify-content-start text-center">
-        <a class="navbar-brand brand-logo me-5" href="index.html"><img src="{{ asset('assets/images/logo.svg') }}" class="me-2"
-                alt="logo" /></a>
+        <a class="navbar-brand brand-logo me-5" href="index.html"><img src="{{ asset('assets/images/logo.svg') }}"
+                class="me-2" alt="logo" /></a>
         <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{ asset('assets/images/logo-mini.svg') }}"
                 alt="logo" /></a>
     </div>
@@ -74,14 +74,13 @@
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item">
                         <i class="ti-settings text-primary"></i> Settings </a>
-                    <a class="dropdown-item">
+                    <a href="#" class="dropdown-item"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="ti-power-off text-primary"></i> Logout </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
-            </li>
-            <li class="nav-item nav-settings d-none d-lg-flex">
-                <a class="nav-link" href="#">
-                    <i class="icon-ellipsis"></i>
-                </a>
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
